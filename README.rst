@@ -5,10 +5,11 @@ fffit
 force fields to experimental properties by using Gaussian process
 surrogate models to rapidly screen through large parameter spaces.
 
-.. warning::
+Warning
+~~~~~~~
 
-    **fffit** is still in early development (0.x releases). The API may
-    change unexpectedly.
+**fffit** is still in early development (0.x releases). The API may
+change unexpectedly.
 
 Installation
 ~~~~~~~~~~~~
