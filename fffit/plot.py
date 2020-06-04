@@ -1,3 +1,4 @@
+import numpy as np
 import matplotlib.pyplot as plt
 
 from fffit.utils import values_scaled_to_real
@@ -30,17 +31,10 @@ def plot_model_performance(
     min_xylim = np.min(y_data_physical)
     max_xylim = np.max(y_data_physical)
 
-    plt.plot(
-        np.arange(xylim_low, xylim_high + 100, 100),
-        np.arange(xylim_low, xylim_high + 100, 100),
-        color="xkcd:blue grey",
-        label="y=x",
-    )
-
     for (label, model) in models.items():
         gp_mu, gp_var = model.predict_f(x_data)
         gp_mu_physical = values_scaled_to_real(gp_mu, property_bounds)
-        plt.scatter(y_data_physical, gp_mu_physical, label=label)
+        plt.scatter(y_data_physical, gp_mu_physical, label=label, zorder=2.5)
         meansqerr = np.mean(
             (gp_mu_physical - y_data_physical.reshape(-1, 1)) ** 2
         )
@@ -52,6 +46,13 @@ def plot_model_performance(
 
     if xylim is None:
         xylim = [min_xylim, max_xylim]
+
+    plt.plot(
+        np.arange(xylim[0], xylim[1] + 100, 100),
+        np.arange(xylim[0], xylim[1] + 100, 100),
+        color="xkcd:blue grey",
+        label="y=x",
+    )
 
     plt.xlim(xylim[0], xylim[1])
     plt.ylim(xylim[0], xylim[1])

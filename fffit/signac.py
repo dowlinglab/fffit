@@ -16,13 +16,15 @@ def save_signac_results(project, param_names, property_names, csv_name):
     csv_name : string
         name of csv file to save results
     """
-    if type(param_names) not in (set, list, tuple):
-        raise TypeError("param_names must be a set")
-    if type(property_names) not in (set, list, tuple):
-        raise TypeError("property_names must be a set")
+    if type(param_names) not in (list, tuple):
+        raise TypeError("param_names must be a list or tuple")
+    if type(property_names) not in (list, tuple):
+        raise TypeError("property_names must be a list or tuple")
 
     job_groupby = tuple(param_names)
     property_names = tuple(property_names)
+
+    print(f"Extracting the following properties: {property_names}")
 
     # Store data here before converting to dataframe
     data = []
@@ -44,7 +46,7 @@ def save_signac_results(project, param_names, property_names, csv_name):
             # Extract property values. Insert N/A if not found
             for property_name in property_names:
                 try:
-                    property_ = job.doc.density
+                    property_ = job.doc[property_name]
                     new_row[property_name] = property_
                 except AttributeError:
                     print("Argh! Job failed!")

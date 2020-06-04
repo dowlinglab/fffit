@@ -98,7 +98,7 @@ def _clean_bounds_values(values, bounds):
     return values, bounds
 
 
-def shuffle_and_split(df, n_params, property_name, fraction_train=0.8, shuffle_seed=None):
+def shuffle_and_split(df, param_names, property_name, fraction_train=0.8, shuffle_seed=None):
     """Randomly shuffle the DataFrame and extracts the train and test sets
 
     The first n_params columns of the dataframe must be the parameters,
@@ -109,8 +109,8 @@ def shuffle_and_split(df, n_params, property_name, fraction_train=0.8, shuffle_s
     ----------
     df : pandas.DataFrame
         The dataframe with the
-    n_params : int
-        Number of parameters (not including temperature) in the model
+    param_names : list-like
+        names of the parameters in the model
     property_name : string
         Name of the property to extract from the pandas dataframe
     fraction_train : float
@@ -140,7 +140,12 @@ def shuffle_and_split(df, n_params, property_name, fraction_train=0.8, shuffle_s
         raise ValueError(
             "`property_name` does not match any headers of `df`"
         )
-    data = df.values
+    if type(param_names) not in (list, tuple):
+        raise TypeError("`param_names` must be a list or tuple")
+    else:
+        param_names = list(param_names)
+
+    data = df[param_names + [property_name]].values
     total_entries = data.shape[0]
     train_entries = int(total_entries * fraction_train)
     # Shuffle the data before splitting train/test sets
@@ -148,9 +153,9 @@ def shuffle_and_split(df, n_params, property_name, fraction_train=0.8, shuffle_s
         np.random.seed(shuffle_seed)
     np.random.shuffle(data)
 
-    x_train = data[:train_entries, :n_params+1].astype(np.float64)
-    y_train = data[:train_entries, prp_idx].astype(np.float64)
-    x_test = data[train_entries:, : n_params + 1].astype(np.float64)
-    y_test = data[train_entries:, prp_idx].astype(np.float64)
+    x_train = data[:train_entries, :-1].astype(np.float64)
+    y_train = data[:train_entries, -1].astype(np.float64)
+    x_test = data[train_entries:, :-1].astype(np.float64)
+    y_test = data[train_entries:, -1].astype(np.float64)
 
     return x_train, y_train, x_test, y_test

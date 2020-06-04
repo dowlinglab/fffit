@@ -1,4 +1,7 @@
 import gpflow
+import numpy as np
+
+from gpflow.utilities import print_summary
 
 
 def run_gpflow_scipy(x_train, y_train, kernel):
