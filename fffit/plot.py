@@ -104,8 +104,8 @@ def plot_slices_temperature(
 
         for (label, model) in models.items():
             mean_scaled, var_scaled = model.predict_f(xx)
-            mean = values_scaled_to_real(mean_scaled, bounds)
-            var = variances_scaled_to_real(var_scaled, bounds)
+            mean = values_scaled_to_real(mean_scaled, property_bounds)
+            var = variances_scaled_to_real(var_scaled, property_bounds)
 
             plt.plot(vals, mean, lw=2, label=label)
             plt.fill_between(
@@ -124,24 +124,24 @@ def plot_slices_temperature(
 
 def plot_slices_params(
     models,
-    parameter,
-    parameter_to_idx,
-    n_params,
+    param_to_plot,
+    param_names,
     temperature,
     temperature_bounds,
     property_bounds,
+    property_name="property",
 ):
-    """Plot the model predictions as a function of parameter_idx at the specified temperature
+    """Plot the model predictions as a function of param_to_plot
+    at the specified temperature
+
     Parameters
     ----------
     models : dict {"label" : gpflow.model }
         GPFlow models to plot
-    parameter : string
+    param_to_plot : string
         Parameter to vary
-    parameter_to_idx : dict { "parameter" : idx }
-        dictionary that maps the parameter to the column index
-    n_params : int
-        number of non-temperature parameters in the model
+    param_names : list, tuple
+        list of parameter names
     temperature : float
         temperature at which to plot the surface
     temperature_bounds: array-like
@@ -150,38 +150,47 @@ def plot_slices_params(
     property_bounds: array-like
         bounds for scaling property between physical
         and dimensionless values
+    property_name : string, optional, default="property"
+        name of property to plot
     """
 
-    parameter_idx = parameter_to_idx[parameter]
+    try:
+        param_idx = param_names.index(param_to_plot)
+    except ValueError:
+        raise ValueError(
+            f"parameter: {param_to_plot} not found in parameter_names: {param_names}"
+        )
+
+    n_params = len(param_names)
 
     n_samples = 100
-    vals = np.linspace(-0.1, 1.1, n_samples).reshape(-1, 1)
+    vals_scaled = np.linspace(-0.1, 1.1, n_samples).reshape(-1, 1)
     temp_vals = np.tile(temperature, (n_samples, 1))
     temp_vals_scaled = values_real_to_scaled(temp_vals, temperature_bounds)
 
     for other_vals in np.arange(0, 1.1, 0.1):
-        other1 = np.tile(other_vals, (n_samples, parameter_idx))
-        other2 = np.tile(other_vals, (n_samples, n_params - 1 - parameter_idx))
-        xx = np.hstack((other1, vals, other2, temp_vals_scaled))
+        other1 = np.tile(other_vals, (n_samples, param_idx))
+        other2 = np.tile(other_vals, (n_samples, n_params - 1 - param_idx))
+        xx = np.hstack((other1, vals_scaled, other2, temp_vals_scaled))
 
         for (label, model) in models.items():
             mean_scaled, var_scaled = model.predict_f(xx)
-            mean = values_scaled_to_real(mean_scaled, density_bounds)
-            var = variances_scaled_to_real(var_scaled, density_bounds)
+            mean = values_scaled_to_real(mean_scaled, property_bounds)
+            var = variances_scaled_to_real(var_scaled, property_bounds)
 
-            plt.plot(vals, mean, lw=2, label=label)
+            plt.plot(vals_scaled, mean, lw=2, label=label)
             plt.fill_between(
-                vals[:, 0],
+                vals_scaled[:, 0],
                 mean[:, 0] - 1.96 * np.sqrt(var[:, 0]),
                 mean[:, 0] + 1.96 * np.sqrt(var[:, 0]),
                 alpha=0.3,
             )
 
-        math_parameter = "$\\" + parameter + "$"
+        math_parameter = "$\\" + param_to_plot + "$"
         plt.title(
             f"{math_parameter} at T = {temperature:.0f} K. Other vals = {other_vals:.2f}."
         )
-        plt.xlabel("$\\" + parameter + "$")
+        plt.xlabel(math_parameter)
         plt.ylabel(property_name)
         plt.legend()
         plt.show()

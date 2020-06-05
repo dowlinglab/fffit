@@ -101,21 +101,17 @@ def _clean_bounds_values(values, bounds):
 def shuffle_and_split(df, param_names, property_name, fraction_train=0.8, shuffle_seed=None):
     """Randomly shuffle the DataFrame and extracts the train and test sets
 
-    The first n_params columns of the dataframe must be the parameters,
-    the n_params+1 column must be the temperature. The other quantities
-    can be in any column.
-
     Parameters
     ----------
     df : pandas.DataFrame
-        The dataframe with the
+        The pandas dataframe with the samples
     param_names : list-like
-        names of the parameters in the model
+        names of the parameters to extract from the dataframe (x_data)
     property_name : string
-        Name of the property to extract from the pandas dataframe
-    fraction_train : float
-        Fraction to use as training data. The remainder will be used for testing
-    shuffle_seed : int, optional
+        Name of the property to extract from the dataframe (y_data)
+    fraction_train : float, optional, default = 0.8
+        Fraction of sample to use as training data. Remainder is test data.
+    shuffle_seed : int, optional, default = None
         seed for random number generator for shuffle
 
     Returns

@@ -10,7 +10,7 @@ def save_signac_results(project, param_names, property_names, csv_name):
     project : signac.Project
         signac project to load
     param_names : set
-        set of parameter names
+        set of parameter names (excluding temperature)
     property_names : set
         set of property names
     csv_name : string
