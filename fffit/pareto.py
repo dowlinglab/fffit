@@ -38,7 +38,7 @@ def compare_pareto_sets(set1, set2):
     return similar
 
 
-def is_pareto_efficient_simple(costs, max_value=False):
+def is_pareto_efficient_simple(costs, max_front=False):
     """
     Find and return pareto-efficient points given costs
 
@@ -50,9 +50,8 @@ def is_pareto_efficient_simple(costs, max_value=False):
     ----------
     costs : np.ndarray, shape=(n_points, n_costs)
         the costs for each point
-    max_value : takes highest cost values (uses >)
-        If the goal is highest cost values, use >.
-        If the goal is lowest cost values, use <
+    max_front : boolean, optional, default=False
+        Find the pareto set for the highest costs
 
     Returns
     -------
@@ -69,7 +68,7 @@ def is_pareto_efficient_simple(costs, max_value=False):
             # (True/False) depending on if they have better/worse values than
             # the current row, thus is efficient is continuously updated
             # with new information
-            if max_value:
+            if max_front:
                 is_efficient[is_efficient] = np.any(
                     costs[is_efficient] > c, axis=1
                 )
@@ -84,7 +83,7 @@ def is_pareto_efficient_simple(costs, max_value=False):
     return is_efficient
 
 
-def is_pareto_efficient(costs, max_value=False):
+def is_pareto_efficient(costs, max_front=False):
     """
     Find and return pareto-efficient points given costs
 
@@ -97,11 +96,8 @@ def is_pareto_efficient(costs, max_value=False):
     ----------
     costs : np.ndarray, shape=(n_points, n_costs)
         the costs for each point
-    max_value : takes highest cost values (uses >), optional, default=False
-        If the goal is highest cost values, use >.
-        If the goal is lowest cost values, use <
-    return_mask : boolean, optional, default=True
-        True to return the mask
+    max_front : boolean, optional, default=False
+        Find the pareto set for the highest costs
 
     Returns
     -------
@@ -117,7 +113,7 @@ def is_pareto_efficient(costs, max_value=False):
     # Do until the input costs array has been searched through
     # Note costs is updated each iteration so we can't use n_points
     while next_point_index < costs.shape[0]:
-        if max_value == True:
+        if max_front == True:
             # Bool array for whether the costs of the current row
             # are greater/less than the costs in the other rows
             nondominated_point_mask = np.any(
@@ -148,7 +144,7 @@ def is_pareto_efficient(costs, max_value=False):
     return is_efficient
 
 
-def find_pareto_set(data, pareto_fun, max_value=False):
+def find_pareto_set(data, pareto_fun, max_front=False):
     """
     Run pareto efficiency function and return pareto indices and costs
 
@@ -158,21 +154,21 @@ def find_pareto_set(data, pareto_fun, max_value=False):
         array with costs for some set of points
     pareto_fun : function
         function to use when calculating the pareto set
-    max_value : boolean, optional, default=False
-        identify the XX
+    max_front : boolean, optional, default=False
+        Find the pareto set for the highest costs
 
     Returns
     -------
     result : np.ndarray, shape=(n_points,)
         indices of pareto set
-    pareto_points : np.ndarray, shape=(n_points
-        array of pareto optimal points
-    dominated_points :
-        array of dominated points
+    pareto_points : np.ndarray, shape=(n_pareto_points,)
+        costs of pareto optimal points
+    dominated_points : np.ndarray, shape=(n_dominated_points)
+        costs of dominated points
     """
 
     # calculate pareto set
-    result = pareto_fun(data, max_value)
+    result = pareto_fun(data, max_front)
 
     # Make data array a list
     data_list = data.tolist()
