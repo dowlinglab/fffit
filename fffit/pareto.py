@@ -14,7 +14,7 @@ https://oapackage.readthedocs.io/en/latest/examples/example_pareto.html
 """
 
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 def compare_pareto_sets(set1, set2):
     """
@@ -187,3 +187,29 @@ def find_pareto_set(data, pareto_fun, max_front=False):
     dominated_points = np.array(dominated_points)
 
     return result, pareto_points, dominated_points
+
+def plt_pareto_2D(paretoPoints,dominatedPoints):
+    """
+    Function to generate plots for 2D cost sets, showing pareto and dominated points. Also prints number of pareto points.
+    
+    Parameters
+    ----------
+    paretoPoints : np.ndarray, shape=(n_points_pareto, n_costs_pareto)
+        2D array of non-dominated costs
+    dominatedPoints : np.ndarray, shape=(n_points_dominated, n_costs_dominated)
+        2D array of dominated costs
+    
+    Returns
+    ----------
+    Nothing
+    Outputs a plot showing the 2D scatter plot of costs with pareto points colored red and dominated points colored blue and the number of pareto points printed out.
+    """
+    
+    plt.plot(paretoPoints[:,0],paretoPoints[:,1],'.r',label='Pareto Points')
+    plt.plot(dominatedPoints[:,0],dominatedPoints[:,1],'.b',label='Dominated Points')
+    plt.xlabel('Objective 1')
+    plt.ylabel('Objective 2')
+    plt.legend()
+    print("Number of Pareto Optimal Points:",len(paretoPoints))
+    
+    return

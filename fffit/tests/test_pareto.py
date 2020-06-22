@@ -1,11 +1,13 @@
 import pytest
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 from fffit.pareto import (
     is_pareto_efficient_simple,
     is_pareto_efficient,
     find_pareto_set,
+    plt_pareto_2D
 )
 from fffit.tests.base_test import BaseTest
 
@@ -102,3 +104,38 @@ class TestPareto(BaseTest):
         assert np.allclose(result1, result2)
         assert np.allclose(pareto_points1, pareto_points2)
         assert np.allclose(dominated_points1, dominated_points2)
+
+    def test_compare_pareto_2Dplt(self):
+	np.random.seed(5)
+        costs = np.random.random(size=(1000,2))
+        result1, pareto_points1, dominated_points1 = find_pareto_set(
+            costs, is_pareto_efficient_simple
+        )
+        result2, pareto_points2, dominated_points2 = find_pareto_set(
+            costs, is_pareto_efficient
+        )
+        assert np.allclose(result1, result2)
+        assert np.allclose(pareto_points1, pareto_points2)
+        assert np.allclose(dominated_points1, dominated_points2)
+
+	plt_pareto_2D(pareto_points1, dominated_points1)
+	plt_pareto_2D(pareto_points2, dominated_points2)
+
+    def test_compare_pareto_max_2Dplt(self):
+	np.random.seed(5)
+        costs = np.random.random(size=(1000,2))
+        result1, pareto_points1, dominated_points1 = find_pareto_set(
+            costs, is_pareto_efficient_simple, max_front=True
+        )
+        result2, pareto_points2, dominated_points2 = find_pareto_set(
+            costs, is_pareto_efficient, max_front=True
+        )
+        assert np.allclose(result1, result2)
+        assert np.allclose(pareto_points1, pareto_points2)
+        assert np.allclose(dominated_points1, dominated_points2)
+
+	plt_pareto_2D(pareto_points1, dominated_points1)
+	plt_pareto_2D(pareto_points2, dominated_points2)
+
+	
+
