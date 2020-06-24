@@ -14,7 +14,10 @@ https://oapackage.readthedocs.io/en/latest/examples/example_pareto.html
 """
 
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
+
+mpl_is_inline = 'inline' in matplotlib.get_backend()
 
 def compare_pareto_sets(set1, set2):
     """
@@ -190,7 +193,9 @@ def find_pareto_set(data, pareto_fun, max_front=False):
 
 def plt_pareto_2D(paretoPoints,dominatedPoints):
     """
-    Function to generate plots for 2D cost sets, showing pareto and dominated points. Also prints number of pareto points.
+    Function to generate plots for 2D cost sets.
+    Plots show  pareto and dominated points. 
+    Function also prints number of pareto points.
     
     Parameters
     ----------
@@ -201,15 +206,60 @@ def plt_pareto_2D(paretoPoints,dominatedPoints):
     
     Returns
     ----------
-    Nothing
-    Outputs a plot showing the 2D scatter plot of costs with pareto points colored red and dominated points colored blue and the number of pareto points printed out.
+    matplotlib.Figure.figure
+    Outputs a plot showing the 2D scatter plot of costs.
+    Pareto points are colored red. 
+    Dominated points are  colored blue.
+    The number of pareto points is  printed.
     """
     
-    plt.plot(paretoPoints[:,0],paretoPoints[:,1],'.r',label='Pareto Points')
-    plt.plot(dominatedPoints[:,0],dominatedPoints[:,1],'.b',label='Dominated Points')
-    plt.xlabel('Objective 1')
-    plt.ylabel('Objective 2')
-    plt.legend()
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    ax.plot(paretoPoints[:,0],paretoPoints[:,1],'.r',label='Pareto Points')
+    ax.plot(dominatedPoints[:,0],dominatedPoints[:,1],'.b',label='Dominated Points')
+    ax.set_xlabel('Objective 1')
+    ax.set_ylabel('Objective 2')
+    ax.legend()
+    
     print("Number of Pareto Optimal Points:",len(paretoPoints))
     
-    return
+    if not mpl_is_inline:
+        return fig
+    
+def test_compare_pareto_2Dplt(is_pareto_efficient_simple,is_pareto_efficient,max_front=False):
+    """
+    Function to visualize pareto/dominated points in 2D.
+    Compares is_pareto_efficient_simple and is_pareto_efficient.
+
+    Parameters
+    ----------
+    is_pareto_efficient_simple : function
+    is_pareto_efficient : function
+    max_front : boolean, optional, default=False
+        Finds pareto sets of highest/lowest costs
+
+
+    Returns
+    -------
+    One 2D pareto plot for is_pareto_efficient_simple function.
+    One 2D pareto plot for is_pareto_efficient function.
+    Prints lengths of pareto sets. 
+    """
+
+    np.random.seed(5)
+    costs = np.random.random(size=(1000,2))
+
+    result1, pareto_points1, dominated_points1 = find_pareto_set(
+        costs, is_pareto_efficient_simple, max_front
+    )
+
+    result2, pareto_points2, dominated_points2 = find_pareto_set(
+        costs, is_pareto_efficient, max_front
+    )
+
+    assert np.allclose(result1, result2)
+    assert np.allclose(pareto_points1, pareto_points2)
+    assert np.allclose(dominated_points1, dominated_points2)
+
+    plt_pareto_2D(pareto_points1, dominated_points1)
+    plt_pareto_2D(pareto_points2, dominated_points2)
