@@ -1,11 +1,13 @@
 import pytest
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 from fffit.pareto import (
     is_pareto_efficient_simple,
     is_pareto_efficient,
     find_pareto_set,
+    plt_pareto_2D
 )
 from fffit.tests.base_test import BaseTest
 
@@ -102,3 +104,4 @@ class TestPareto(BaseTest):
         assert np.allclose(result1, result2)
         assert np.allclose(pareto_points1, pareto_points2)
         assert np.allclose(dominated_points1, dominated_points2)
+
