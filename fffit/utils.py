@@ -125,7 +125,7 @@ def shuffle_and_split(df, param_names, property_name, fraction_train=0.8, shuffl
     y_test : np.ndarray
         Testing results
     """
-    if fraction_train <= 0.0 or fraction_train >= 1.0:
+    if fraction_train < 0.0 or fraction_train > 1.0:
         raise ValueError("`fraction_train` must be between 0 and 1.")
     else:
         fraction_test = 1.0 - fraction_train
