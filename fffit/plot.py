@@ -42,11 +42,11 @@ def plot_model_performance(
     for (label, model) in models.items():
         gp_mu, gp_var = model.predict_f(x_data)
         gp_mu_physical = values_scaled_to_real(gp_mu, property_bounds)
-        ax.scatter(y_data_physical, gp_mu_physical, label=label, zorder=2.5)
+        ax.scatter(y_data_physical, gp_mu_physical, label=label, zorder=2.5, alpha=0.4)
         meansqerr = np.mean(
             (gp_mu_physical - y_data_physical.reshape(-1, 1)) ** 2
         )
-        print("Model: {}. Mean squared err: {:.0f}".format(label, meansqerr))
+        print("Model: {}. Mean squared err: {:.2e}".format(label, meansqerr))
         if np.min(gp_mu_physical) < min_xylim:
             min_xylim = np.min(gp_mu_physical)
         if np.max(gp_mu_physical) > max_xylim:

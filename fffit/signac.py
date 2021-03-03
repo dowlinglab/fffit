@@ -1,3 +1,4 @@
+import numpy as np
 import signac
 import pandas as pd
 
@@ -48,9 +49,9 @@ def save_signac_results(project, param_names, property_names, csv_name):
                 try:
                     property_ = job.doc[property_name]
                     new_row[property_name] = property_
-                except AttributeError:
-                    print("Argh! Job failed!")
-                    new_row[property_name] = "N/A"
+                except KeyError:
+                    print(f"Job failed: {job.id}")
+                    new_row[property_name] = np.nan
 
             data.append(new_row)
 
