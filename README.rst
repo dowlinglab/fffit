@@ -15,7 +15,8 @@ Installation
 ~~~~~~~~~~~~
 
 Installation is currently only available from source. We recommend
-installing the package within a dedicated venv or conda environment:
+installing the package within a dedicated venv or conda environment.
+Here we demonstrate with a venv environment:
 
 .. code-block:: bash
 
@@ -23,7 +24,7 @@ installing the package within a dedicated venv or conda environment:
     cd fffit/
     python3 -m venv fffit-env
     source fffit-env/bin/activate
-    python3 -m pip install --file requirements.txt
+    python3 -m pip install -r requirements.txt
     pip install -e .
 
 Note this will make an editable installation so that any of the changes
@@ -36,7 +37,7 @@ Credits
 ~~~~~~~
 
 Development of fffit was supported by the National Science Foundation
-under grant NSF Grant Number 1835874 and NSF Grant Number XX.
+under grant NSF Award Number OAC-1835630 and NSF Award Number CBET-1917474.
 Any opinions, findings, and conclusions or recommendations expressed
 in this material are those of the author(s) and do not necessarily
 reflect the views of the National Science Foundation.
