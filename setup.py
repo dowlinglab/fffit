@@ -9,10 +9,6 @@ else:
     __version__ = VERSION + ".dev0"
 #####################################
 
-requirements = [
-    "numpy",
-]
-
 setup(
     name="fffit",
     version=__version__,
@@ -21,6 +17,5 @@ setup(
     author="Ryan S. DeFever",
     author_email="rdefever@nd.edu",
     url="https://github.com/rsdefever/fffit",
-    install_requires=requirements,
     python_requires=">=3.6, <4",
 )
