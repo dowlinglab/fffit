@@ -30,7 +30,7 @@ Note this will make an editable installation so that any of the changes
 you make in your ``fffit``.
 
 More information on virtual environments can be found
-`here <https://docs.python.org/3/tutorial/venv.html>_`.
+`here<https://docs.python.org/3/tutorial/venv.html>_`.
 
 Credits
 ~~~~~~~
