@@ -11,6 +11,24 @@ Warning
 **fffit** is still in early development (0.x releases). The API may
 change unexpectedly.
 
+Examples
+~~~~~~~~
+Example repositories have used this package for force field development
+for `hydrofluorocarbons<https://github.com/rsdefever/hfcs-fffit>_`
+and `ammonium perchlorate<https://github.com/rsdefever/ap-fffit>_`.
+
+Citation
+~~~~~~~~
+This work has been submitted for review. In the meantime, you
+may cite the preprint as:
+
+.. code-block:: bash
+
+BJ Befort, RS DeFever, G Tow, AW Dowling, and EJ Maginn. Machine learning
+directed optimization of classical molecular modeling force fields. arXiv
+(2020).
+
+
 Installation
 ~~~~~~~~~~~~
 
