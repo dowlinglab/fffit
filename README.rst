@@ -14,19 +14,20 @@ change unexpectedly.
 Examples
 ~~~~~~~~
 Example repositories have used this package for force field development
-for `hydrofluorocarbons<https://github.com/rsdefever/hfcs-fffit>_`
-and `ammonium perchlorate<https://github.com/rsdefever/ap-fffit>_`.
+for `hydrofluorocarbons <https://github.com/dowlinglab/hfcs-fffit>`_
+and `ammonium perchlorate <https://github.com/dowlinglab/ap-fffit>`_.
+
 
 Citation
 ~~~~~~~~
 This work has been submitted for review. In the meantime, you
-may cite the preprint as:
+may cite the `preprint <https://arxiv.org/abs/2103.03208>`_ as:
 
 .. code-block:: bash
 
 BJ Befort, RS DeFever, G Tow, AW Dowling, and EJ Maginn. Machine learning
 directed optimization of classical molecular modeling force fields. arXiv
-(2020).
+(2021), https://arxiv.org/abs/2103.03208
 
 
 Installation
@@ -49,7 +50,7 @@ Note this will make an editable installation so that any of the changes
 you make in your ``fffit``.
 
 More information on virtual environments can be found
-`here<https://docs.python.org/3/tutorial/venv.html>_`.
+`here <https://docs.python.org/3/tutorial/venv.html>`_.
 
 Credits
 ~~~~~~~
