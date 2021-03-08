@@ -92,7 +92,8 @@ def _clean_bounds_values(values, bounds):
     else:
         if len(values.shape) != 2 or values.shape[1] != bounds.shape[0]:
             raise ValueError(
-                "Shapes of `values` and `bounds` must be consistent"
+                "Shapes of `values` and `bounds` must be consistent. "
+                "Please see the doc strings for more information."
             )
 
     return values, bounds
