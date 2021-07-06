@@ -16,7 +16,8 @@ Examples
 Example repositories have used this package for force field development
 for `hydrofluorocarbons <https://github.com/dowlinglab/hfcs-fffit>`_
 and `ammonium perchlorate <https://github.com/dowlinglab/ap-fffit>`_.
-
+See those repositories for further details of how you can use this
+package in your work.
 
 Citation
 ~~~~~~~~
